@@ -22,7 +22,7 @@ class User
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=255)
      */
     private $email;
 
@@ -34,7 +34,12 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $picture;
+    private $photo;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $groupes;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -82,14 +87,26 @@ class User
         return $this;
     }
 
-    public function getPicture(): ?string
+    public function getPhoto(): ?string
     {
-        return $this->picture;
+        return $this->photo;
     }
 
-    public function setPicture(string $picture): self
+    public function setPhoto(string $photo): self
     {
-        $this->picture = $picture;
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getGroupes(): ?string
+    {
+        return $this->groupes;
+    }
+
+    public function setGroupes(?string $groupes): self
+    {
+        $this->groupes = $groupes;
 
         return $this;
     }

@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\GroupRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\GroupsRepository")
  */
-class Group
+class Groups
 {
     /**
      * @ORM\Id()
@@ -19,12 +19,12 @@ class Group
     /**
      * @ORM\Column(type="string", length=50)
      */
-    private $name;
+    private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $picture;
+    private $photo;
 
     /**
      * @ORM\Column(type="datetime")
@@ -37,9 +37,9 @@ class Group
     private $users;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=255)
      */
-    private $admin;
+    private $users_p;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -51,26 +51,26 @@ class Group
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getNom(): ?string
     {
-        return $this->name;
+        return $this->nom;
     }
 
-    public function setName(string $name): self
+    public function setNom(string $nom): self
     {
-        $this->name = $name;
+        $this->nom = $nom;
 
         return $this;
     }
 
-    public function getPicture(): ?string
+    public function getPhoto(): ?string
     {
-        return $this->picture;
+        return $this->photo;
     }
 
-    public function setPicture(string $picture): self
+    public function setPhoto(string $photo): self
     {
-        $this->picture = $picture;
+        $this->photo = $photo;
 
         return $this;
     }
@@ -99,14 +99,14 @@ class Group
         return $this;
     }
 
-    public function getAdmin(): ?string
+    public function getUsersP(): ?string
     {
-        return $this->admin;
+        return $this->users_p;
     }
 
-    public function setAdmin(string $admin): self
+    public function setUsersP(string $users_p): self
     {
-        $this->admin = $admin;
+        $this->users_p = $users_p;
 
         return $this;
     }
