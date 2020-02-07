@@ -32,19 +32,14 @@ class Message
     private $state;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Groups", inversedBy="message")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Groups", inversedBy="messages")
      */
-    private $groupe;
+    private $groups;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="message")
      */
     private $user;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="message")
-     */
-    private $users;
 
     public function getId(): ?int
     {
@@ -87,14 +82,14 @@ class Message
         return $this;
     }
 
-    public function getGroupe(): ?Groups
+    public function getGroups(): ?Groups
     {
-        return $this->groupe;
+        return $this->groups;
     }
 
-    public function setGroupe(?Groups $groupe): self
+    public function setGroups(?Groups $groups): self
     {
-        $this->groupe = $groupe;
+        $this->groupe = $groups;
 
         return $this;
     }
@@ -107,18 +102,6 @@ class Message
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getUsers(): ?User
-    {
-        return $this->users;
-    }
-
-    public function setUsers(?User $users): self
-    {
-        $this->users = $users;
 
         return $this;
     }

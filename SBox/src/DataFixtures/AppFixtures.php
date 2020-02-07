@@ -26,7 +26,7 @@ class AppFixtures extends Fixture
                 $groups->setPhoto('image' . rand(1, 3) . '.jpg');
                 $groups->setUserAdmin($user); //L'admin du groupe
                 $groups->setDate(new \DateTime('now'));                
-                $user->addGroupe($groups); //liste des groupes attribués à l'utilisateur
+                $user->addGroups($groups); //liste des groupes attribués à l'utilisateur
                 $manager->persist($groups);
                 
             }
@@ -36,7 +36,7 @@ class AppFixtures extends Fixture
                 $message->setContent('Message N°' . $x);
                 $message->setState(rand(0, 3));
                 $message->setDateTime(new \DateTime('now'));
-                $message->setGroupe($groups);
+                $message->setGroups($groups);
                 $message->setUser($user); //auteur du message
                 $manager->persist($message);
                 $groups->addMessage($message); //Les IDs des messages du groupe
