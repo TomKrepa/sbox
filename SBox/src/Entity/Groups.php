@@ -48,21 +48,10 @@ class Groups
      */
     private $messages;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="groupe")
-     */
-    private $message;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="groupe")
-     */
-    private $user;
-
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->messages = new ArrayCollection();
-        $this->message = new ArrayCollection();
         $this->user = new ArrayCollection();
     }
 
@@ -157,7 +146,7 @@ class Groups
     {
         if (!$this->messages->contains($message)) {
             $this->messages[] = $message;
-            $message->setGroupe($this);
+            $message->setGroups($this);
         }
 
         return $this;
@@ -168,27 +157,12 @@ class Groups
         if ($this->messages->contains($message)) {
             $this->messages->removeElement($message);
             // set the owning side to null (unless already changed)
-            if ($message->getGroupe() === $this) {
-                $message->setGroupe(null);
+            if ($message->getGroups() === $this) {
+                $message->setGroups(null);
             }
         }
 
         return $this;
     }
 
-    /**
-     * @return Collection|Message[]
-     */
-    public function getMessage(): Collection
-    {
-        return $this->message;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getUser(): Collection
-    {
-        return $this->user;
-    }
 }

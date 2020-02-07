@@ -46,19 +46,19 @@ class User implements UserInterface
     private $photo;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Groups", inversedBy="user")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Groups", inversedBy="users")
      */
-    private $groupe;
+    private $groups;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\message", mappedBy="users")
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="user")
      */
-    private $message;
+    private $messages;
 
     public function __construct()
     {
-        $this->groupe = new ArrayCollection();
-        $this->message = new ArrayCollection();
+        $this->groups = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -161,24 +161,24 @@ class User implements UserInterface
     /**
      * @return Collection|Groups[]
      */
-    public function getGroupe(): Collection
+    public function getGroups(): Collection
     {
-        return $this->groupe;
+        return $this->groups;
     }
 
-    public function addGroupe(Groups $groupe): self
+    public function addGroups(Groups $groups): self
     {
-        if (!$this->groupe->contains($groupe)) {
-            $this->groupe[] = $groupe;
+        if (!$this->groups->contains($groups)) {
+            $this->groups[] = $groups;
         }
 
         return $this;
     }
 
-    public function removeGroupe(Groups $groupe): self
+    public function removeGroups(Groups $groups): self
     {
-        if ($this->groupe->contains($groupe)) {
-            $this->groupe->removeElement($groupe);
+        if ($this->groups->contains($groups)) {
+            $this->groups->removeElement($groups);
         }
 
         return $this;
@@ -187,16 +187,16 @@ class User implements UserInterface
     /**
      * @return Collection|message[]
      */
-    public function getMessage(): Collection
+    public function getMessages(): Collection
     {
         return $this->message;
     }
 
-    public function addMessage(message $message): self
+    public function addMessage(Message $message): self
     {
-        if (!$this->message->contains($message)) {
-            $this->message[] = $message;
-            $message->setUsers($this);
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setUser($this);
         }
 
         return $this;
@@ -205,10 +205,10 @@ class User implements UserInterface
     public function removeMessage(message $message): self
     {
         if ($this->message->contains($message)) {
-            $this->message->removeElement($message);
+            $this->messages->removeElement($message);
             // set the owning side to null (unless already changed)
-            if ($message->getUsers() === $this) {
-                $message->setUsers(null);
+            if ($message ->getUser() === $this) {
+                $message->setUser(null);
             }
         }
 
