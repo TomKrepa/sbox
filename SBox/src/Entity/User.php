@@ -51,7 +51,7 @@ class User implements UserInterface
     private $groupe;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\message", mappedBy="users")
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="users")
      */
     private $message;
 

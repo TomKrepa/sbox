@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\User;
 use App\Form\RegisterType;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 class AdminController extends AbstractController
 {
@@ -38,7 +41,7 @@ class AdminController extends AbstractController
             $manager -> persist($user);
             $manager -> flush();
             
-            $this -> addFlash('success Le User a bien été enregisté');
+            
             return $this -> redirectToRoute('sign_in');
         }
 
