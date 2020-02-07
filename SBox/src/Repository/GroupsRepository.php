@@ -19,8 +19,6 @@ class GroupsRepository extends ServiceEntityRepository
         parent::__construct($registry, Groups::class);
     }
 
-    
-
     // /**
     //  * @return Groups[] Returns an array of Groups objects
     //  */

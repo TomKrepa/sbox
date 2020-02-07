@@ -24,7 +24,7 @@ class Message
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateTime;
+    private $datetime;
 
     /**
      * @ORM\Column(type="integer")
@@ -32,14 +32,19 @@ class Message
     private $state;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Groups", inversedBy="message")
      */
-    private $messageGroup;
+    private $groupe;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="message")
      */
     private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="message")
+     */
+    private $users;
 
     public function getId(): ?int
     {
@@ -58,14 +63,14 @@ class Message
         return $this;
     }
 
-    public function getDateTime(): ?\DateTimeInterface
+    public function getDatetime(): ?\DateTimeInterface
     {
-        return $this->dateTime;
+        return $this->datetime;
     }
 
-    public function setDateTime(\DateTimeInterface $dateTime): self
+    public function setDatetime(\DateTimeInterface $datetime): self
     {
-        $this->dateTime = $dateTime;
+        $this->datetime = $datetime;
 
         return $this;
     }
@@ -82,26 +87,38 @@ class Message
         return $this;
     }
 
-    public function getMessageGroup(): ?string
+    public function getGroupe(): ?Groups
     {
-        return $this->messageGroup;
+        return $this->groupe;
     }
 
-    public function setMessageGroup(string $messageGroup): self
+    public function setGroupe(?Groups $groupe): self
     {
-        $this->messageGroup = $messageGroup;
+        $this->groupe = $groupe;
 
         return $this;
     }
 
-    public function getUser(): ?string
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(string $user): self
+    public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getUsers(): ?User
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?User $users): self
+    {
+        $this->users = $users;
 
         return $this;
     }

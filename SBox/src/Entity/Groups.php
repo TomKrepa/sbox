@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,7 +19,7 @@ class Groups
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=255)
      */
     private $nom;
 
@@ -32,19 +34,37 @@ class Groups
     private $date;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="groups")
      */
     private $users;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="groups")
      */
-    private $users_p;
+    private $user_admin;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="groups")
      */
     private $messages;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="groupe")
+     */
+    private $message;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="groupe")
+     */
+    private $user;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+        $this->messages = new ArrayCollection();
+        $this->message = new ArrayCollection();
+        $this->user = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -87,39 +107,88 @@ class Groups
         return $this;
     }
 
-    public function getUsers(): ?string
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
     {
         return $this->users;
     }
 
-    public function setUsers(string $users): self
+    public function addUser(User $user): self
     {
-        $this->users = $users;
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+        }
 
         return $this;
     }
 
-    public function getUsersP(): ?string
+    public function removeUser(User $user): self
     {
-        return $this->users_p;
-    }
-
-    public function setUsersP(string $users_p): self
-    {
-        $this->users_p = $users_p;
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+        }
 
         return $this;
     }
 
-    public function getMessages(): ?string
+    public function getUserAdmin(): ?User
+    {
+        return $this->user_admin;
+    }
+
+    public function setUserAdmin(?User $user_admin): self
+    {
+        $this->user_admin = $user_admin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessages(): Collection
     {
         return $this->messages;
     }
 
-    public function setMessages(string $messages): self
+    public function addMessage(Message $message): self
     {
-        $this->messages = $messages;
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setGroups($this);
+        }
 
         return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->contains($message)) {
+            $this->messages->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getGroups() === $this) {
+                $message->setGroups(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessage(): Collection
+    {
+        return $this->message;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUser(): Collection
+    {
+        return $this->user;
     }
 }

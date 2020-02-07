@@ -141,29 +141,9 @@ img{ max-width:100%;}
 }
 </style>
 
-<div class="container">
-<h3 class=" text-center">Inscription</h3>
-<div class="messaging"> 
-    <div class="inbox_people">
-        <div class="headind_srch">
-        <div class="recent_heading">
-            </div>
-            <div class="srch_bar">
-              <div class="stylish-input-group">
-                </br>
-                <input type="text" class="search-bar log"  placeholder="Username" >
-                </br>
-                <input type="text" class="search-bar log"  placeholder="E-mail" >
-                </br>
-                <input type="text" class="search-bar log"  placeholder="Photo" >
-                </br>
-                <input type="password" class="search-bar log"  placeholder="Password" >
-                </br>
-                <span class="input-group-addon">
-                    <button type="button" class="btn btn-secondary log">Inscription</button>
-                </span>
-                </div>
-            </div>
-          </div>
-    </div>
+{{form_start(form)}}
+{{form_row(form)}}
+<button type="submit">Inscription</button>
+{{form_end(form)}}
+
 {% endblock %}

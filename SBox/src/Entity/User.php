@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -34,7 +36,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=255)
      */
     private $email;
 
@@ -44,14 +46,20 @@ class User implements UserInterface
     private $photo;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToMany(targetEntity="App\Entity\Groups", inversedBy="user")
      */
-    private $groupes;
+    private $groupe;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToMany(targetEntity="App\Entity\message", mappedBy="users")
      */
-    private $messages;
+    private $message;
+
+    public function __construct()
+    {
+        $this->groupe = new ArrayCollection();
+        $this->message = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -150,26 +158,59 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getGroupes(): ?string
+    /**
+     * @return Collection|Groups[]
+     */
+    public function getGroupe(): Collection
     {
-        return $this->groupes;
+        return $this->groupe;
     }
 
-    public function setGroupes(string $groupes): self
+    public function addGroupe(Groups $groupe): self
     {
-        $this->groupes = $groupes;
+        if (!$this->groupe->contains($groupe)) {
+            $this->groupe[] = $groupe;
+        }
 
         return $this;
     }
 
-    public function getMessages(): ?string
+    public function removeGroupe(Groups $groupe): self
     {
-        return $this->messages;
+        if ($this->groupe->contains($groupe)) {
+            $this->groupe->removeElement($groupe);
+        }
+
+        return $this;
     }
 
-    public function setMessages(string $messages): self
+    /**
+     * @return Collection|message[]
+     */
+    public function getMessage(): Collection
     {
-        $this->messages = $messages;
+        return $this->message;
+    }
+
+    public function addMessage(message $message): self
+    {
+        if (!$this->message->contains($message)) {
+            $this->message[] = $message;
+            $message->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(message $message): self
+    {
+        if ($this->message->contains($message)) {
+            $this->message->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getUsers() === $this) {
+                $message->setUsers(null);
+            }
+        }
 
         return $this;
     }
