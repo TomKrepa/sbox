@@ -12,36 +12,44 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             $user = new User;
             $user->setUsername('user' . $i);
             $user->setPassword('123456');
             $user->setEmail('user' . $i . '@gmail.com');
             $user->setPhoto('image' . rand(1, 3) . '.jpg');
-            $user->setMessages("kkkkkkkk");
+
+            for ($j = 1; $j <= 5; $j++) {
+                $groups = new Groups;
+                $groups->setNom('Groupe N° ' . $j . 'du user' . $i);
+                $groups->addUser($user); //Nombre des users dans le groupe 
+                $groups->setPhoto('image' . rand(1, 3) . '.jpg');
+                $groups->setUserAdmin($user); //L'admin du groupe
+                $groups->setDate(new \DateTime('now'));                
+                $user->addGroupe($groups); //liste des groupes attribués à l'utilisateur
+                $manager->persist($groups);
+                
+            }
+
+            for ($x = 1; $x <= rand(1, 5); $x++) {
+                $message = new Message;
+                $message->setContent('Message N°' . $x);
+                $message->setState(rand(0, 3));
+                $message->setDateTime(new \DateTime('now'));
+                $message->setGroupe($groups);
+                $message->setUser($user); //auteur du message
+                $manager->persist($message);
+                $groups->addMessage($message); //Les IDs des messages du groupe
+            }
+
+
             $manager->persist($user);
 
 
-            for ($j = 1; $j <= 20; $j++) {
-                $groups = new Groups;
-                $groups->setNom('Groupe N° ' . $j);
-                $groups->setUsers('user' . rand(1, 10));
-                $groups->setPhoto('image' . rand(1, 3) . '.jpg');
-                $groups->setUsersP("1");
-                $groups->setDate(new \DateTime('now'));
-                $groups->setMessages("mmmm");
-                $manager->persist($groups);
 
-                for ($x = 1; $x <= rand(1, 10); $x++) {
-                    $message = new Message;
-                    $message->setContent('Message N°' . $x);
-                    $message->setState(rand(0, 3));
-                    $message->setDateTime(new \DateTime('now'));
-                    $message->setMessageGroup("yes");
-                    $message->setUser('user' . rand(1, 10));
-                    $manager->persist($message);
-                }
-            }
+
+
+
             $manager->flush();
         }
     }
