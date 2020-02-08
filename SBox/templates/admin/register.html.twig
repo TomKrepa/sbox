@@ -133,20 +133,46 @@ img{ max-width:100%;}
   display: flex;
   justify-content: center;
 }
-
+.wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column; 
+  justify-content: center;
+  width: 100%;
+  min-height: 100%;
+  padding: 20px;
+  margin:auto;
+  margin-top:10%
+}
+#formContent {
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background: #fff;
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  padding: 0px;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  text-align: center;
+}
 .log {
     display:flex;
     justify-content:center;
     margin:auto;
 }
 </style>
+<form method="post">
+<div class="wrapper" id="formContent">
+<h1 class="h3 mb-3 font-weight-normal" style="margin-top:2em">Inscription</h1>
 
-<h1>Inscription</h1>
-
-{{ form_start(form) }}
-
-{{ form_row(form)}}
-<button type="submit" class="btn btn-secondary log">Inscription</button>
-{{ form_end(form) }}
-
+  {{form_start(registerForm)}}
+    
+    <button class="btn btn-lg btn-primary" type="submit" style="margin:2em">
+        Register
+    </button>
+	{{form_end(registerForm)}}
+</div>
+</form>
 {% endblock %}

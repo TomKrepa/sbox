@@ -44,7 +44,7 @@ class Groups
     private $user_admin;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="groups")
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="groupe")
      */
     private $messages;
 
@@ -146,7 +146,7 @@ class Groups
     {
         if (!$this->messages->contains($message)) {
             $this->messages[] = $message;
-            $message->setGroups($this);
+            $message->setGroupe($this);
         }
 
         return $this;
@@ -157,8 +157,8 @@ class Groups
         if ($this->messages->contains($message)) {
             $this->messages->removeElement($message);
             // set the owning side to null (unless already changed)
-            if ($message->getGroups() === $this) {
-                $message->setGroups(null);
+            if ($message->getGroupe() === $this) {
+                $message->setGroupe(null);
             }
         }
 

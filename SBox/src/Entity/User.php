@@ -8,9 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id()
@@ -51,11 +52,7 @@ class User implements UserInterface
     private $groups;
 
     /**
-<<<<<<< HEAD
-     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="users")
-=======
      * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="user")
->>>>>>> 4d4a41dc3912e554c2c9b2c149923d6548b5de06
      */
     private $messages;
 
@@ -217,5 +214,40 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    public function addGroup(Groups $group): self
+    {
+        if (!$this->groups->contains($group)) {
+            $this->groups[] = $group;
+        }
+
+        return $this;
+    }
+
+    public function removeGroup(Groups $group): self
+    {
+        if ($this->groups->contains($group)) {
+            $this->groups->removeElement($group);
+        }
+
+        return $this;
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password
+        ));
+    }
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password
+        ) = unserialize($serialized);
     }
 }

@@ -34,7 +34,7 @@ class Message
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Groups", inversedBy="messages")
      */
-    private $groups;
+    private $groupe;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="message")
@@ -82,17 +82,6 @@ class Message
         return $this;
     }
 
-    public function getGroups(): ?Groups
-    {
-        return $this->groups;
-    }
-
-    public function setGroups(?Groups $groups): self
-    {
-        $this->groupe = $groups;
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {
@@ -105,4 +94,17 @@ class Message
 
         return $this;
     }
+
+    public function getGroupe(): ?Groups
+    {
+        return $this->groupe;
+    }
+
+    public function setGroupe(?Groups $groupe): self
+    {
+        $this->groupe = $groupe;
+
+        return $this;
+    }
+
 }
